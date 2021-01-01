@@ -1,19 +1,22 @@
 /*
  steps组件
  */
-layui.use(['jquery', 'steps'], function(){
+layui.use(['jquery', 'steps'], function () {
 
-    var $ = layui.$;
+    const $ = layui.$;
 
-    var $step= $("#step_demo").step();
+    const $step = $("#step_demo").step();
 
-    $("#preBtn").click(function(event) {
-        $step.preStep();//上一步
+    $("#preBtn").click(function (event) {
+        // 上一步
+        $step.preStep();
     });
-    $("#nextBtn").click(function(event) {
-        $step.nextStep();//下一步
+    $("#nextBtn").click(function (event) {
+        // 下一步
+        $step.nextStep();
     });
-    $("#goBtn").click(function(event) {
-        $step.goStep(3);//到指定步
+    $("#goBtn").click(function (event) {
+        // 到指定步
+        $step.goStep(3);
     });
 });
