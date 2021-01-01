@@ -4,15 +4,16 @@
     $.fn.step = function (options) {
         const opts = $.extend({}, $.fn.step.defaults, options);
         // 总步骤个数
-        const size = this.find(".step-header li").length;
-        let barWidth = opts.initStep < size ? 100 / (1 * size) + 100 * (opts.initStep - 1) / size : 100;
-        let curPage = opts.initStep;
+        const totalSize = this.find(".step-header li").length;
+        let barWidth = opts.initStep < totalSize ? 100 / (1 * totalSize) + 100 * (opts.initStep - 1) / totalSize : 100;
+        // 当前步骤
+        let currentStep = opts.initStep;
         const steps = this;
-        const bar_w = (100 - (100 / size)) + '%';
+        const bar_w = (100 - (100 / totalSize)) + '%';
         this.find(".step-header").prepend("<div class=\"step-bar\" style='width:" + bar_w + "'><div class=\"step-bar-active\"></div></div>");
         this.find(".step-list").eq(opts.initStep).show();
-        if (size < opts.initStep) {
-            opts.initStep = size;
+        if (totalSize < opts.initStep) {
+            opts.initStep = totalSize;
         }
         if (opts.animate === false) {
             opts.speed = 0;
@@ -29,16 +30,13 @@
             }
         });
         this.find(".step-header li").css({
-            "width": 100 / size + "%"
+            "width": 100 / totalSize + "%"
         });
         this.find(".step-header").show();
         this.find(".step-bar-active").animate({
-                "width": barWidth + "%"
-            },
-            opts.speed, function () {
-
-            });
-
+            "width": barWidth + "%"
+        }, opts.speed, function () {
+        });
         this.find(".jump-steps").on('click', function () {
             const step_id = $(this).attr("data-step");
             steps.goStep(step_id);
@@ -46,19 +44,19 @@
 
         // 下一步
         this.nextStep = function () {
-            if (curPage >= size) {
+            if (currentStep >= totalSize) {
                 return false;
             }
-            const next_step_num = curPage === 0 ? 2 : curPage + 1 === size ? size : curPage + 1;
+            const next_step_num = currentStep === 0 ? 2 : currentStep + 1 === totalSize ? totalSize : currentStep + 1;
             return this.goStep(next_step_num);
         };
 
         // 上一步
         this.preStep = function () {
-            if (curPage <= 1) {
+            if (currentStep <= 1) {
                 return false;
             }
-            const pre_step_num = curPage === 1 ? 1 : curPage - 1;
+            const pre_step_num = currentStep === 1 ? 1 : currentStep - 1;
             return this.goStep(pre_step_num);
         };
 
@@ -70,9 +68,10 @@
                 }
                 return false;
             }
-            curPage = parseInt(page);
+            currentStep = parseInt(page);
+            // console.log(currentStep);
             this.find(".step-list").hide();
-            this.find(".step-list").eq(curPage - 1).show();
+            this.find(".step-list").eq(currentStep - 1).show();
             this.find(".step-header li").each(function (i, li) {
                 const $li = $(li);
                 $li.removeClass('step-current')
@@ -88,9 +87,9 @@
                     $li.addClass('step-current');
                 }
             });
-            const bar_rate = 100 / (100 - (100 / size));
+            const bar_rate = 100 / (100 - (100 / totalSize));
 
-            barWidth = page < size ? (100 / (2 * size) + 100 * (page - 1) / size) * bar_rate : 100;
+            barWidth = page < totalSize ? (100 / (2 * totalSize) + 100 * (page - 1) / totalSize) * bar_rate : 100;
             this.find(".step-bar-active").animate({
                     "width": barWidth + "%"
                 },
