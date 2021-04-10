@@ -15,11 +15,11 @@
         if (totalSize < opts.initStep) {
             opts.initStep = totalSize;
         }
-        if (opts.animate === false) {
+        if (opts.animate == false) {
             opts.speed = 0;
         }
         this.find(".step-header li").each(function (i, li) {
-            if (i === 0) {
+            if (i == 0) {
                 $(li).addClass("step-current")
                     .append('<a href="javascript:;" class="jump-steps" data-step="' + (i + 1) + '">' + (i + 1) + '</a>');
             } else if (i < opts.initStep) {
@@ -47,7 +47,7 @@
             if (currentStep >= totalSize) {
                 return false;
             }
-            const next_step_num = currentStep === 0 ? 2 : currentStep + 1 === totalSize ? totalSize : currentStep + 1;
+            const next_step_num = currentStep == 0 ? 2 : currentStep + 1 == totalSize ? totalSize : currentStep + 1;
             return this.goStep(next_step_num);
         };
 
@@ -56,13 +56,13 @@
             if (currentStep <= 1) {
                 return false;
             }
-            const pre_step_num = currentStep === 1 ? 1 : currentStep - 1;
+            const pre_step_num = currentStep == 1 ? 1 : currentStep - 1;
             return this.goStep(pre_step_num);
         };
 
         // 跳到指定步骤
         this.goStep = function (page) {
-            if (page === undefined || isNaN(page) || page < 0) {
+            if (page == undefined || isNaN(page) || page < 0) {
                 if (window.console && window.console.error) {
                     console.error('the method goStep has a error,page:' + page);
                 }
@@ -83,7 +83,7 @@
                     if (opts.scrollTop) {
                         $('html,body').animate({scrollTop: 0}, 'slow');
                     }
-                } else if ((i + 1) === page) {
+                } else if ((i + 1) == page) {
                     $li.addClass('step-current');
                 }
             });
